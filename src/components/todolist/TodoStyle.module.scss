@@ -1,0 +1,80 @@
+.todoList {
+  margin: 20px auto;
+  padding: 10px;
+  width: 16%;
+  box-shadow: 3px 3px #ecedf4, -1em 0 .4em #ecedf4;
+}
+
+.addInput {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  display: flex;
+
+  button {
+    background: none;
+    border: none;
+    color: #919296;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .btnActive {
+    color: #14a0e4;
+    border-bottom: 1px #14a0e4 solid;
+  }
+}
+
+.wrapperItemsBtn,
+.wrapperItemsText {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemsList {
+  padding-inline-start: 0;
+
+  .itemTask {
+    margin: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 10px 5px 5px #ecedf4;
+  }
+
+  button {
+    background: #14a0e4;
+    border-radius: 6px;
+    border: none;
+    color: #919296;
+    cursor: pointer;
+    padding: 5px
+  }
+}
+
+.task {
+  font-weight: bold;
+}
+
+.taskDone {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.notError {
+  padding: 10px;
+  visibility: hidden;
+}
+
+.error {
+  padding: 10px;
+  color: red;
+}
