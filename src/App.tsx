@@ -1,7 +1,7 @@
+
 import { useState } from 'react';
 import './App.scss';
 import { Todolist } from './components/todolist/Todolist';
-//test
 
 export type filterValueType = 'all' | 'completed' | 'inWork';
 export interface Todo {
