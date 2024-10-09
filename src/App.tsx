@@ -32,6 +32,7 @@ function App() {
   };
 
   const editTask = (id:number, title:string)=>{
+    console.log(title)
      setTasks(tasks.map((eTask)=> id === eTask.id ? {...eTask, title}: eTask))
   }
 

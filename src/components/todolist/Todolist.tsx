@@ -3,7 +3,7 @@ import { Button } from '../button/Button';
 import { InputText } from '../inputText/InputText';
 import { filterValueType, Todo } from '../../App';
 import style from './TodoStyle.module.scss';
-import { Icons } from '../../img/Icons';
+import { Task } from '../task/Task';
 
 export type TodolistType = {
   countAllTasks: number;
@@ -13,7 +13,7 @@ export type TodolistType = {
   filerTask: filterValueType;
   addTask: (title: string) => void;
   removeTask: (id: number) => void;
-  editTask: (id:number, title:string)=> void
+  editTask: (id: number, title: string) => void;
   changeTask: (id: number, isDone: boolean) => void;
   setFilteredTasks: (filerTask: filterValueType) => void;
 };
@@ -44,46 +44,9 @@ export const Todolist = ({
       setError(true);
     }
   };
-
-  const handleChangeTask = (taskId: number, isDone: boolean) => {
-    changeTask(taskId, isDone);
-  };
-const hendleEditTask = (taskId: number, title: string)=>{
-  editTask(taskId, title)
-}
   const handleFiltered = (filter: filterValueType) => {
     setFilteredTasks(filter);
   };
-
-  const task = tasks.map((t) => {
-    return (
-      <li key={t.id} className={style.itemTask}>
-        <div className={style.wrapperItemsText}>
-          <input
-            type="checkbox"
-            checked={t.isDone}
-            onChange={(e) => handleChangeTask(t.id, e.currentTarget.checked)}
-          />
-          <span className={t.isDone ? style.taskDone : style.task}>
-            {t.title}
-          </span>
-        </div>
-        <div className={style.wrapperItemsBtn}>
-          <Button title={'edit'} onClick={() => {}}>
-            <Icons name="EditIcon" color="black" />
-          </Button>
-          <Button
-            title={'remove'}
-            onClick={() => {
-              removeTask(t.id);
-            }}
-          >
-            <Icons name="RemoveIcon" color="black" />
-          </Button>
-        </div>
-      </li>
-    );
-  });
 
   return (
     <div className={style.todoList}>
@@ -119,7 +82,23 @@ const hendleEditTask = (taskId: number, title: string)=>{
         </Button>
       </div>
       <div>
-        <ul className={style.itemsList}>{task}</ul>
+        <ul className={style.itemsList}>
+          {tasks.map((task) => {
+            return (
+              <Task
+                key={task.id}
+                title={task.title}
+                id={task.id}
+                isDone={task.isDone}
+                created={task.created}
+                editTask={editTask}
+                removeTask={removeTask}
+                changeTask={changeTask}
+                setError={setError}
+              />
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
