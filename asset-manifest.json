@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/CRM-System/static/css/main.bdd4f66a.css",
+    "main.js": "/CRM-System/static/js/main.03275331.js",
+    "static/js/453.b9b0aa0a.chunk.js": "/CRM-System/static/js/453.b9b0aa0a.chunk.js",
+    "static/media/RemoveIcon.svg": "/CRM-System/static/media/RemoveIcon.d6e7cf27bff652f9cf973015952051b7.svg",
+    "static/media/SaveIcon.svg": "/CRM-System/static/media/SaveIcon.1c1dd47aeaf2bdbf1075fa7a3a030501.svg",
+    "static/media/EditIcon.svg": "/CRM-System/static/media/EditIcon.37f3ed45ce4713a75d4fefa315e2ceab.svg",
+    "index.html": "/CRM-System/index.html",
+    "static/media/CancelIcon.svg": "/CRM-System/static/media/CancelIcon.404420e22596b9d793f27928d0452acf.svg",
+    "main.bdd4f66a.css.map": "/CRM-System/static/css/main.bdd4f66a.css.map",
+    "main.03275331.js.map": "/CRM-System/static/js/main.03275331.js.map",
+    "453.b9b0aa0a.chunk.js.map": "/CRM-System/static/js/453.b9b0aa0a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bdd4f66a.css",
+    "static/js/main.03275331.js"
+  ]
+}
