@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 import { Todolist } from './components/todolist/Todolist';
 
@@ -11,42 +11,65 @@ export interface Todo {
   isDone: boolean;
 }
 
-const initTodo: Todo[] = [
-  { id: 1, title: 'milk', created: 'created', isDone: false },
-  { id: 2, title: 'beer', created: 'created', isDone: false },
-  { id: 3, title: 'apple', created: 'created', isDone: false },
-  { id: 4, title: 'fish', created: 'created', isDone: true },
-];
+const baseUrl = 'https://easydev.club/api/v1/todos';
 
 function App() {
-  let [tasks, setTasks] = useState<Todo[]>(initTodo);
+  let [tasks, setTasks] = useState<Todo[]>([]);
   const [filerTask, setFilerTask] = useState<filterValueType>('all');
 
+  useEffect(() => {
+    fetch(`${baseUrl}?filter=all`)
+      .then((res) => res.json())
+      .then((res) => setTasks(res.data));
+  }, []);
+
   const addTask = (title: string) => {
-    const newTask: Todo = {
-      id: 5,
-      title: title,
-      created: 'sdsd',
-      isDone: false,
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ title: title, isDone: false }),
     };
-    setTasks([...tasks, newTask]);
+    fetch(baseUrl, requestOptions)
+      .then((res) => res.json())
+      .then((data) => setTasks([data, ...tasks]));
   };
 
-  const editTask = (id:number, title:string)=>{
-    console.log(title)
-     setTasks(tasks.map((eTask)=> id === eTask.id ? {...eTask, title}: eTask))
-  }
+  const editTask = (id: number, title: string) => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, title }),
+    };
+    fetch(`${baseUrl}/${id}`, requestOptions).then((res) => res.json());
+    setTasks(
+      tasks.map((eTask) => (id === eTask.id ? { ...eTask, title } : eTask)),
+    );
+  };
 
   const removeTask = (id: number) => {
-    setTasks(tasks.filter((delTask) => delTask.id !== id));
+    const requestOptions = {
+      method: 'DELETE',
+    };
+    fetch(`${baseUrl}/${id}`, requestOptions).then(() =>
+      setTasks(tasks.filter((el) => el.id !== id)),
+    );
   };
 
   const changeTask = (id: number, isDone: boolean) => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, isDone }),
+    };
+    fetch(`${baseUrl}/${id}`, requestOptions).then((res) => res.json());
+
     setTasks(tasks.map((t) => (t.id === id ? { ...t, isDone } : t)));
   };
 
-  const setFilteredTasks = (filerTask: filterValueType) => {
-    setFilerTask(filerTask);
+  const setFilteredTasks = (filterTask: filterValueType) => {
+    setFilerTask(filterTask);
   };
 
   const getFilteredTasks = () => {
