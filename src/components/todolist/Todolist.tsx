@@ -1,43 +1,61 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button } from '../button/Button';
 import { InputText } from '../inputText/InputText';
 import { filterValueType, Todo } from '../../App';
 import style from './TodoStyle.module.scss';
 import { Task } from '../task/Task';
+import { fetchCountTasks } from '../../api/Api';
 
 export type TodolistType = {
-  countAllTasks: number;
-  countCompletedTasks: number;
-  countInWorkTasks: number;
   tasks: Todo[];
   filerTask: filterValueType;
-  addTask: (title: string) => void;
+  addedTask: (title: string) => void;
   removeTask: (id: number) => void;
-  editTask: (id: number, title: string) => void;
-  changeTask: (id: number, isDone: boolean) => void;
+  editTaskTitle: (id: number, title: string) => void;
+  changeTaskStatus: (id: number, isDone: boolean) => void;
   setFilteredTasks: (filerTask: filterValueType) => void;
 };
 
 export const Todolist = ({
-  countAllTasks,
-  countCompletedTasks,
-  countInWorkTasks,
   tasks,
   filerTask,
-  addTask,
+  addedTask,
   removeTask,
-  editTask,
-  changeTask,
+  editTaskTitle,
+  changeTaskStatus,
   setFilteredTasks,
 }: TodolistType) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
+  const [countAllTasks, setCountAllTasks] = useState(0);
+  const [countCompletedTasks, setCountCompletedTasks] = useState(0);
+  const [countInWorkTasks, setCountInWorkTasks] = useState(0);
+
+  const countTasks = useCallback(async (value: filterValueType) => {
+    const result = await fetchCountTasks(value);
+    return result[value];
+  },[]
+)
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const allTasks = await countTasks('all');
+      const completedTasks = await countTasks('completed');
+      const inWorkTasks = await countTasks('inWork');
+
+      setCountAllTasks(allTasks);
+      setCountCompletedTasks(completedTasks);
+      setCountInWorkTasks(inWorkTasks);
+    };
+
+    fetchData();
+  });
   const validText = text.length > 2 && text.length < 64;
 
   const handleAddTask = () => {
     if (validText) {
-      addTask(text);
+      addedTask(text);
       setText('');
       setError(false);
     } else {
@@ -70,7 +88,7 @@ export const Todolist = ({
           classes={filerTask === 'inWork' ? style.btnActive : style.btnFilter}
           onClick={() => handleFiltered('inWork')}
         >
-          {<span>{`В работе(${countCompletedTasks})`}</span>}
+          {<span>{`В работе(${countInWorkTasks})`}</span>}
         </Button>
         <Button
           classes={
@@ -78,7 +96,7 @@ export const Todolist = ({
           }
           onClick={() => handleFiltered('completed')}
         >
-          {<span>{`Сделано(${countInWorkTasks})`}</span>}
+          {<span>{`Сделано(${countCompletedTasks})`}</span>}
         </Button>
       </div>
       <div>
@@ -91,9 +109,9 @@ export const Todolist = ({
                 id={task.id}
                 isDone={task.isDone}
                 created={task.created}
-                editTask={editTask}
+                editTaskTitle={editTaskTitle}
                 removeTask={removeTask}
-                changeTask={changeTask}
+                changeTaskStatus={changeTaskStatus}
                 setError={setError}
               />
             );

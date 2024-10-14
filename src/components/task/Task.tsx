@@ -9,9 +9,9 @@ export type TaskType = {
   id: number;
   isDone: boolean;
   created: string;
-  editTask: (id: number, title: string) => void;
+  editTaskTitle: (id: number, title: string) => void;
   removeTask: (id: number) => void;
-  changeTask: (id: number, isDone: boolean) => void;
+  changeTaskStatus: (id: number, isDone: boolean) => void;
   setError: (error: boolean) => void;
 };
 
@@ -20,30 +20,30 @@ export const Task = ({
   id,
   isDone,
   created,
-  editTask,
+  editTaskTitle,
   removeTask,
-  changeTask,
+  changeTaskStatus,
   setError,
 }: TaskType) => {
-  const [edit, setEdit] = useState(true);
-  const [valueTaskTitle, setValueTaskTitle] = useState(title);
+  const [isEdit, setEdit] = useState<boolean>(false);
+  const [valueTaskTitle, setValueTaskTitle] = useState<string>(title);
 
   const handleChangeTask = (taskId: number, isDone: boolean) => {
-    changeTask(taskId, isDone);
+    changeTaskStatus(taskId, isDone);
   };
 
   const handleEditTask = () => {
-    setEdit(false);
+    setEdit(true);
   };
 
   const handleCancelEditTask = () => {
-    setEdit(true);
+    setEdit(false);
     setValueTaskTitle(title);
   };
 
   const handleSaveTask = (taskId: number, title: string) => {
-    editTask(taskId, title);
-    setEdit(true);
+    editTaskTitle(taskId, title);
+    setEdit(false);
   };
 
   return (
@@ -56,29 +56,20 @@ export const Task = ({
             onChange={(e) => handleChangeTask(id, e.currentTarget.checked)}
           />
 
-          {edit ? (
-            <span className={isDone ? style.taskDone : style.task}>
-              {title}
-            </span>
-          ) : (
+          {isEdit ? (
             <InputText
               text={valueTaskTitle}
               setText={setValueTaskTitle}
               setError={setError}
             />
+          ) : (
+            <span className={isDone ? style.taskDone : style.task}>
+              {title}
+            </span>
           )}
         </div>
         <div className={style.wrapperItemsBtn}>
-          {edit ? (
-            <>
-              <Button title={'edit'} onClick={handleEditTask}>
-                <Icons name="EditIcon" color="black" />
-              </Button>
-              <Button title={'remove'} onClick={() => removeTask(id)}>
-                <Icons name="RemoveIcon" color="black" />
-              </Button>
-            </>
-          ) : (
+          {isEdit ? (
             <>
               <Button
                 title={'saveIcon'}
@@ -90,6 +81,15 @@ export const Task = ({
               </Button>
               <Button title={'cancel'} onClick={handleCancelEditTask}>
                 <Icons name="CancelIcon" color="black" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button title={'edit'} onClick={handleEditTask}>
+                <Icons name="EditIcon" color="black" />
+              </Button>
+              <Button title={'remove'} onClick={() => removeTask(id)}>
+                <Icons name="RemoveIcon" color="black" />
               </Button>
             </>
           )}
