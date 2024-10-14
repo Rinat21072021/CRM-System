@@ -1,7 +1,14 @@
-
 import { useEffect, useState } from 'react';
 import './App.scss';
 import { Todolist } from './components/todolist/Todolist';
+import {
+  fetchAddTask,
+  fetchChangeTaskStatus,
+  fetchCountTasks,
+  fetchEditTaskTitle,
+  fetchRemoveTask,
+  fetchTasks,
+} from './api/Api';
 
 export type filterValueType = 'all' | 'completed' | 'inWork';
 export interface Todo {
@@ -11,60 +18,39 @@ export interface Todo {
   isDone: boolean;
 }
 
-const baseUrl = 'https://easydev.club/api/v1/todos';
-
 function App() {
   let [tasks, setTasks] = useState<Todo[]>([]);
   const [filerTask, setFilerTask] = useState<filterValueType>('all');
 
-  useEffect(() => {
-    fetch(`${baseUrl}?filter=all`)
-      .then((res) => res.json())
-      .then((res) => setTasks(res.data));
-  }, []);
-
-  const addTask = (title: string) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: JSON.stringify({ title: title, isDone: false }),
-    };
-    fetch(baseUrl, requestOptions)
-      .then((res) => res.json())
-      .then((data) => setTasks([data, ...tasks]));
+  const getTasks = async () => {
+    const result = await fetchTasks(`?filter=all`);
+    const data = await result.data;
+    setTasks(data);
   };
 
-  const editTask = (id: number, title: string) => {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, title }),
-    };
-    fetch(`${baseUrl}/${id}`, requestOptions).then((res) => res.json());
+  useEffect(() => {
+    getTasks();
+  }, []);
+
+  const addedTask = async (title: string) => {
+    const data = await fetchAddTask(title);
+    setTasks([data, ...tasks]);
+  };
+
+  const editTaskTitle = async (id: number, title: string) => {
+    const result = await fetchEditTaskTitle(id, title);
     setTasks(
       tasks.map((eTask) => (id === eTask.id ? { ...eTask, title } : eTask)),
     );
   };
 
-  const removeTask = (id: number) => {
-    const requestOptions = {
-      method: 'DELETE',
-    };
-    fetch(`${baseUrl}/${id}`, requestOptions).then(() =>
-      setTasks(tasks.filter((el) => el.id !== id)),
-    );
+  const removeTask = async (id: number) => {
+    const result = await fetchRemoveTask(id);
+    setTasks(tasks.filter((el) => el.id !== id));
   };
 
-  const changeTask = (id: number, isDone: boolean) => {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, isDone }),
-    };
-    fetch(`${baseUrl}/${id}`, requestOptions).then((res) => res.json());
-
+  const changeTaskStatus = async (id: number, isDone: boolean) => {
+    const result = await fetchChangeTaskStatus(id, isDone);
     setTasks(tasks.map((t) => (t.id === id ? { ...t, isDone } : t)));
   };
 
@@ -84,25 +70,18 @@ function App() {
     return filteredTasks;
   };
 
-  const countAllTasks = tasks.length;
-  const countCompletedTasks = tasks.filter((fTasks) => !fTasks.isDone).length;
-  const countInWorkTasks = tasks.filter((fTasks) => fTasks.isDone).length;
-
   const resultTasks = getFilteredTasks();
 
   return (
     <div className="App">
       <Todolist
-        countAllTasks={countAllTasks}
-        countCompletedTasks={countCompletedTasks}
-        countInWorkTasks={countInWorkTasks}
         tasks={resultTasks}
         filerTask={filerTask}
-        addTask={addTask}
+        addedTask={addedTask}
         removeTask={removeTask}
-        editTask={editTask}
+        editTaskTitle={editTaskTitle}
         setFilteredTasks={setFilteredTasks}
-        changeTask={changeTask}
+        changeTaskStatus={changeTaskStatus}
       />
     </div>
   );
