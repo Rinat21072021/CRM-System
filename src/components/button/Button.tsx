@@ -1,15 +1,5 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
 import style from './Button.module.scss';
-
-
-
-type ButtonType = {
-  onClick: () => void;
-  disabled?: boolean;
-  typeClasses?: string
-  classes?: string;
-  children:ReactNode
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+import { ButtonType } from '../../type/type';
 
 export const Button = ({
   onClick,

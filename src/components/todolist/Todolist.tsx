@@ -1,22 +1,11 @@
 import { useState } from 'react';
 import { Button } from '../button/Button';
 import { InputText } from '../inputText/InputText';
-import { filterValueType, Todo } from '../../App';
 import style from './TodoStyle.module.scss';
 import { Task } from '../task/Task';
+import { filterValueType, TodolistType } from '../../type/type';
 
-export type TodolistType = {
-  countAllTasks: number;
-  countCompletedTasks: number;
-  countInWorkTasks: number;
-  tasks: Todo[];
-  filerTask: filterValueType;
-  addTask: (title: string) => void;
-  removeTask: (id: number) => void;
-  editTask: (id: number, title: string) => void;
-  changeTask: (id: number, isDone: boolean) => void;
-  setFilteredTasks: (filerTask: filterValueType) => void;
-};
+
 
 export const Todolist = ({
   countAllTasks,
@@ -26,8 +15,8 @@ export const Todolist = ({
   filerTask,
   addTask,
   removeTask,
-  editTask,
-  changeTask,
+  editTaskTitle,
+  changeTaskStatus,
   setFilteredTasks,
 }: TodolistType) => {
   const [text, setText] = useState('');
@@ -91,9 +80,9 @@ export const Todolist = ({
                 id={task.id}
                 isDone={task.isDone}
                 created={task.created}
-                editTask={editTask}
+                editTaskTitle={editTaskTitle}
                 removeTask={removeTask}
-                changeTask={changeTask}
+                changeTaskStatus={changeTaskStatus}
                 setError={setError}
               />
             );

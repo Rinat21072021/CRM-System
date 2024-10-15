@@ -3,33 +3,23 @@ import { Button } from '../button/Button';
 import style from '../../components/todolist/TodoStyle.module.scss';
 import { useState } from 'react';
 import { InputText } from '../inputText/InputText';
-
-export type TaskType = {
-  title: string;
-  id: number;
-  isDone: boolean;
-  created: string;
-  editTask: (id: number, title: string) => void;
-  removeTask: (id: number) => void;
-  changeTask: (id: number, isDone: boolean) => void;
-  setError: (error: boolean) => void;
-};
+import { TaskType } from '../../type/type';
 
 export const Task = ({
   title,
   id,
   isDone,
   created,
-  editTask,
+  editTaskTitle,
   removeTask,
-  changeTask,
+  changeTaskStatus,
   setError,
 }: TaskType) => {
   const [edit, setEdit] = useState(true);
   const [valueTaskTitle, setValueTaskTitle] = useState(title);
 
   const handleChangeTask = (taskId: number, isDone: boolean) => {
-    changeTask(taskId, isDone);
+    changeTaskStatus(taskId, isDone);
   };
 
   const handleEditTask = () => {
@@ -42,7 +32,7 @@ export const Task = ({
   };
 
   const handleSaveTask = (taskId: number, title: string) => {
-    editTask(taskId, title);
+    editTaskTitle(taskId, title);
     setEdit(true);
   };
 
