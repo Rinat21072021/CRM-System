@@ -7,6 +7,12 @@ export const useTodolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
   const [filerTask, setFilerTask] = useState<filterValueType>('all');
 
+  const [text, setText] = useState('');
+  const [error, setError] = useState(false);
+
+  const validText = text.length > 2 && text.length < 64;
+
+  
   useEffect(() => {
     fetch(`${baseUrl}?filter=all`)
       .then((res) => res.json())
@@ -79,6 +85,11 @@ export const useTodolist = () => {
 
   const resultTasks = getFilteredTasks();
   return {
+    text,
+    setText,
+    error,
+    setError,
+    validText,
     filerTask,
     addTask,
     editTaskTitle,

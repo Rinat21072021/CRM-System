@@ -2,20 +2,17 @@ import { Icons } from '../../img/Icons';
 import { Button } from '../button/Button';
 import style from '../../components/todolist/TodoStyle.module.scss';
 import { useState } from 'react';
-import { InputText } from '../inputText/InputText';
 import { TaskType } from '../../type/type';
 
 export const Task = ({
   title,
   id,
   isDone,
-  created,
   editTaskTitle,
   removeTask,
   changeTaskStatus,
-  setError,
 }: TaskType) => {
-  const [edit, setEdit] = useState(true);
+  const [isEdit, setEdit] = useState(true);
   const [valueTaskTitle, setValueTaskTitle] = useState(title);
 
   const handleChangeTask = (taskId: number, isDone: boolean) => {
@@ -46,26 +43,26 @@ export const Task = ({
             onChange={(e) => handleChangeTask(id, e.currentTarget.checked)}
           />
 
-          {edit ? (
-            <span className={isDone ? style.taskDone : style.task}>
+          {isEdit ? (
+            <span 
+              className={isDone ? style.taskDone : style.task}>
               {title}
             </span>
           ) : (
-            <InputText
-              text={valueTaskTitle}
-              setText={setValueTaskTitle}
-              setError={setError}
+            <input
+              value={valueTaskTitle}
+              onChange={(e) => setValueTaskTitle(e.currentTarget.value)}
             />
           )}
         </div>
         <div className={style.wrapperItemsBtn}>
-          {edit ? (
+          {isEdit ? (
             <>
               <Button title={'edit'} onClick={handleEditTask}>
                 <Icons name="EditIcon" color="black" />
               </Button>
-              <Button title={'remove'} onClick={() => removeTask(id)}>
-                <Icons name="RemoveIcon" color="black" />
+              <Button title={'remove'} className={title=== 'remove' ? style.remove: ""} onClick={() => removeTask(id)}>
+                <Icons name="RemoveIcon" color="red" />
               </Button>
             </>
           ) : (

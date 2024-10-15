@@ -1,0 +1,18 @@
+.filterBtn {
+  display: flex;
+}
+
+.btnFilter {
+  background-color: transparent;
+  border: none;
+  color: #919296;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btnActive {
+  border: none;
+  background-color: transparent;
+  color: #14a0e4;
+  border-bottom: 1px #14a0e4 solid;
+}

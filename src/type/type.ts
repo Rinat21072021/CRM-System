@@ -1,25 +1,27 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export type filterValueType = 'all' | 'completed' | 'inWork';
-export interface Todo {
-  id: number;
-  title: string;
-  created: string; // ISO date string
-  isDone: boolean;
-}
 
 export type ButtonType = {
   onClick: () => void;
   disabled?: boolean;
-  typeClasses?: string
-  classes?: string;
-  children:ReactNode
+  title?: string
+  children?: ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export type FilterBtnType = {
+  filerTask: filterValueType;
+  countAllTasks: number;
+  countCompletedTasks: number;
+  countInWorkTasks: number;
+  filtered: (filter: filterValueType) => void;
+}& ButtonHTMLAttributes<HTMLButtonElement>;
 
 export type InputTextType = {
   text: string;
   setText: (text: string) => void;
   setError: (error: boolean) => void;
+  onClick?: () => void;
 };
 
 export type TaskType = {
@@ -45,3 +47,11 @@ export type TodolistType = {
   changeTaskStatus: (id: number, isDone: boolean) => void;
   setFilteredTasks: (filerTask: filterValueType) => void;
 };
+
+
+export interface Todo {
+  id: number;
+  title: string;
+  created: string; // ISO date string
+  isDone: boolean;
+}
