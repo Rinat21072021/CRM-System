@@ -3,22 +3,23 @@ import { Button } from '../button/Button';
 import { InputText } from '../inputText/InputText';
 import style from './TodoStyle.module.scss';
 import { Task } from '../task/Task';
-import { filterValueType, TodolistType } from '../../type/type';
+import { filterValueType } from '../../type/type';
+import { useTodolist } from './hooks/useTodolist';
 
+export const Todolist = () => {
+  const {
+    filerTask,
+    addTask,
+    editTaskTitle,
+    removeTask,
+    changeTaskStatus,
+    setFilteredTasks,
+    resultTasks,
+    countAllTasks,
+    countCompletedTasks,
+    countInWorkTasks,
+  } = useTodolist();
 
-
-export const Todolist = ({
-  countAllTasks,
-  countCompletedTasks,
-  countInWorkTasks,
-  tasks,
-  filerTask,
-  addTask,
-  removeTask,
-  editTaskTitle,
-  changeTaskStatus,
-  setFilteredTasks,
-}: TodolistType) => {
   const [text, setText] = useState('');
   const [error, setError] = useState(false);
 
@@ -72,7 +73,7 @@ export const Todolist = ({
       </div>
       <div>
         <ul className={style.itemsList}>
-          {tasks.map((task) => {
+          {resultTasks.map((task) => {
             return (
               <Task
                 key={task.id}
