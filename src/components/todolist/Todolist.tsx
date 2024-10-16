@@ -1,39 +1,31 @@
 import { useState } from 'react';
 import { Button } from '../button/Button';
 import { InputText } from '../inputText/InputText';
-import { filterValueType, Todo } from '../../App';
 import style from './TodoStyle.module.scss';
+
 import { Task } from '../task/Task';
+import { filterValueType } from '../../type/type';
+import { useTodolist } from './hooks/useTodolist';
+import { FilterBtn } from '../filterBtn/FilterBtn';
 
-export type TodolistType = {
-  countAllTasks: number;
-  countCompletedTasks: number;
-  countInWorkTasks: number;
-  tasks: Todo[];
-  filerTask: filterValueType;
-  addTask: (title: string) => void;
-  removeTask: (id: number) => void;
-  editTask: (id: number, title: string) => void;
-  changeTask: (id: number, isDone: boolean) => void;
-  setFilteredTasks: (filerTask: filterValueType) => void;
-};
-
-export const Todolist = ({
-  countAllTasks,
-  countCompletedTasks,
-  countInWorkTasks,
-  tasks,
-  filerTask,
-  addTask,
-  removeTask,
-  editTask,
-  changeTask,
-  setFilteredTasks,
-}: TodolistType) => {
-  const [text, setText] = useState('');
-  const [error, setError] = useState(false);
-
-  const validText = text.length > 2 && text.length < 64;
+export const Todolist = () => {
+  const {
+    text,
+    setText,
+    error,
+    setError,
+    validText,
+    filerTask,
+    addTask,
+    editTaskTitle,
+    removeTask,
+    changeTaskStatus,
+    setFilteredTasks,
+    filteredTasks,
+    countAllTasks,
+    countCompletedTasks,
+    countInWorkTasks,
+  } = useTodolist();
 
   const handleAddTask = () => {
     if (validText) {
@@ -51,39 +43,26 @@ export const Todolist = ({
   return (
     <div className={style.todoList}>
       <div className={style.addInput}>
-        <InputText setText={setText} setError={setError} text={text} />
-        <Button typeClasses="add" onClick={() => handleAddTask()}>
-          {<span>{'Add'}</span>}
-        </Button>
+        <InputText
+          setText={setText}
+          setError={setError}
+          text={text}
+          onClick={() => handleAddTask()}
+        />
         <div className={error ? style.error : style.notError}>
           Text must be more than 2 and less than 62 characters
         </div>
       </div>
-      <div className={style.filterBtn}>
-        <Button
-          classes={filerTask === 'all' ? style.btnActive : style.btnFilter}
-          onClick={() => handleFiltered('all')}
-        >
-          {<span>{`Все(${countAllTasks})`}</span>}
-        </Button>
-        <Button
-          classes={filerTask === 'inWork' ? style.btnActive : style.btnFilter}
-          onClick={() => handleFiltered('inWork')}
-        >
-          {<span>{`В работе(${countCompletedTasks})`}</span>}
-        </Button>
-        <Button
-          classes={
-            filerTask === 'completed' ? style.btnActive : style.btnFilter
-          }
-          onClick={() => handleFiltered('completed')}
-        >
-          {<span>{`Сделано(${countInWorkTasks})`}</span>}
-        </Button>
-      </div>
+      <FilterBtn
+        countAllTasks={countAllTasks}
+        countCompletedTasks={countCompletedTasks}
+        countInWorkTasks={countInWorkTasks}
+        filerTask={filerTask}
+        filtered={(filter) => handleFiltered(filter)}
+      />
       <div>
         <ul className={style.itemsList}>
-          {tasks.map((task) => {
+          {filteredTasks.map((task) => {
             return (
               <Task
                 key={task.id}
@@ -91,9 +70,9 @@ export const Todolist = ({
                 id={task.id}
                 isDone={task.isDone}
                 created={task.created}
-                editTask={editTask}
+                editTaskTitle={editTaskTitle}
                 removeTask={removeTask}
-                changeTask={changeTask}
+                changeTaskStatus={changeTaskStatus}
                 setError={setError}
               />
             );

@@ -12,22 +12,6 @@
   flex-wrap: wrap;
 }
 
-.filterBtn {
-  display: flex;
-
-  button {
-    background: none;
-    border: none;
-    color: #919296;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .btnActive {
-    color: #14a0e4;
-    border-bottom: 1px #14a0e4 solid;
-  }
-}
 
 .wrapperItemsBtn,
 .wrapperItemsText {
@@ -48,22 +32,24 @@
     background-color: #fff;
     border-radius: 6px;
     box-shadow: 10px 5px 5px #ecedf4;
-  }
 
-  button {
-    background: #14a0e4;
-    border-radius: 6px;
-    border: none;
-    color: #919296;
-    cursor: pointer;
-    padding: 5px
+
   }
 }
 
 .task {
   font-weight: bold;
-}
 
+
+}
+//TODO доделать три точки на span
+span {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
 .taskDone {
   text-decoration: line-through;
   opacity: 0.5;

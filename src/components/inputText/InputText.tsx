@@ -1,24 +1,26 @@
-import { ChangeEvent, ReactNode } from 'react';
 import style from './InputText.module.scss';
+import { InputTextType } from '../../type/type';
+import { useInputText } from './hooks/useInputText';
 
-export type InputTextType = {
-  text: string;
-  setText: (text: string) => void;
-  setError: (error: boolean) => void;
-};
+export const InputText = ({
+  text,
+  setText,
+  setError,
+  onClick,
+}: InputTextType) => {
+  const { handleOnChange } = useInputText(setText, setError);
 
-export const InputText = ({ text, setText, setError }: InputTextType) => {
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.currentTarget.value);
-    setError(false);
-  };
   return (
-    <input
-      type="text"
-      value={text}
-      placeholder="Task To Be Done"
-      onChange={handleOnChange}
-      className={style.default}
-    />
+    <>
+      <input
+        type="text"
+        value={text}
+        placeholder="Task To Be Done"
+        onChange={handleOnChange}
+        className={style.default}
+      />
+      
+      <button className = {style.addBtn}onClick={onClick}>Add</button>
+    </>
   );
 };
