@@ -20,7 +20,7 @@ export const FilterBtn = ({
         className={filerTask === 'inWork' ? style.btnActive : style.btnFilter}
         onClick={() => filtered('inWork')}
       >
-        {<span>{`В работе(${countCompletedTasks})`}</span>}
+        {<span>{`В работе(${countInWorkTasks})`}</span>}
       </button>
       <button
         className={
@@ -28,7 +28,7 @@ export const FilterBtn = ({
         }
         onClick={() => filtered('completed')}
       >
-        {<span>{`Сделано(${countInWorkTasks})`}</span>}
+        {<span>{`Сделано(${countCompletedTasks})`}</span>}
       </button>
     </div>
   );

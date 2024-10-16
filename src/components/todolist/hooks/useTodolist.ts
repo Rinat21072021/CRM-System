@@ -3,7 +3,7 @@ import { filterValueType, Todo } from '../../../type/type';
 import {
   fetchAddTask,
   fetchChangeTaskStatus,
-  fetchCountTasks,
+  fetchFilteredTasks,
   fetchEditTaskTitle,
   fetchRemoveTask,
   fetchTasks,
@@ -62,7 +62,7 @@ export const useTodolist = () => {
   let filteredTasks = tasks;
   const getFilteredTasks = async () => {
     const fetchData = async () => {
-      const result = await fetchCountTasks(filerTask);
+      const result = await fetchFilteredTasks(filerTask);
       const countTasks = await result.info;
       const filteredTasks = await result.data;
 
@@ -72,7 +72,7 @@ export const useTodolist = () => {
       return filteredTasks;
     };
      fetchData();
-    // let filteredTasks = tasks;
+
     if (filerTask === 'completed') {
       filteredTasks = tasks.filter((fTasks) => fTasks.isDone);
     } else if (filerTask === 'inWork') {

@@ -73,7 +73,7 @@ export const fetchChangeTaskStatus = async (id: number, isDone: boolean) => {
   }
 };
 
-export const fetchCountTasks = async (value: filterValueType) => {
+export const fetchFilteredTasks = async (value: filterValueType) => {
   try {
     const result = await fetch(`${baseUrl}?filter=${value}`);
     const data = await result.json();
