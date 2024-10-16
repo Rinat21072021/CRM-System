@@ -21,7 +21,7 @@ export const Todolist = () => {
     removeTask,
     changeTaskStatus,
     setFilteredTasks,
-    resultTasks,
+    filteredTasks,
     countAllTasks,
     countCompletedTasks,
     countInWorkTasks,
@@ -62,7 +62,7 @@ export const Todolist = () => {
       />
       <div>
         <ul className={style.itemsList}>
-          {resultTasks.map((task) => {
+          {filteredTasks.map((task) => {
             return (
               <Task
                 key={task.id}
