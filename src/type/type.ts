@@ -11,9 +11,7 @@ export type ButtonType = {
 
 export type FilterBtnType = {
   filerTask: filterValueType;
-  countAllTasks: any;
-  countCompletedTasks: any;
-  countInWorkTasks: any;
+  countTasks: any;
   filtered: (filter: filterValueType) => void;
 }& ButtonHTMLAttributes<HTMLButtonElement>;
 

@@ -10,11 +10,9 @@ import { fetchAddTask, fetchChangeTaskStatus, fetchEditTaskTitle, fetchFilteredT
 export const Todolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
   const [filerTask, setFilerTask] = useState<filterValueType>('all');
-  const [text, setText] = useState('');
-  const [error, setError] = useState(false);
-  const [countAllTasks, setCountAllTasks] = useState(0);
-  const [countCompletedTasks, setCountCompletedTasks] = useState(0);
-  const [countInWorkTasks, setCountInWorkTasks] = useState(0);
+  const [text, setText] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+  const [countTasks, setCountTasks] = useState({});
 
   const validText = text.length > 2 && text.length < 64;
 
@@ -59,10 +57,8 @@ export const Todolist = () => {
       const result = await fetchFilteredTasks(filerTask);
       const countTasks = await result.info;
       const filteredTasks = await result.data;
-
-      setCountAllTasks(countTasks.all);
-      setCountCompletedTasks(countTasks.completed);
-      setCountInWorkTasks(countTasks.inWork);
+      setCountTasks(countTasks);
+    
       return filteredTasks;
     };
      fetchData();
@@ -76,7 +72,6 @@ export const Todolist = () => {
 
   const resultTasks = getFilteredTasks();
   
-
   const handleAddTask = () => {
     if (validText) {
       addTask(text);
@@ -104,9 +99,7 @@ export const Todolist = () => {
         </div>
       </div>
       <FilterBtn
-        countAllTasks={countAllTasks}
-        countCompletedTasks={countCompletedTasks}
-        countInWorkTasks={countInWorkTasks}
+        countTasks={countTasks}
         filerTask={filerTask}
         filtered={(filter) => handleFiltered(filter)}
       />

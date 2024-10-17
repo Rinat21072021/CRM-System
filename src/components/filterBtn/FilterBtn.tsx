@@ -3,9 +3,7 @@ import style from './FilterBtn.module.scss';
 
 export const FilterBtn = ({
   filerTask,
-  countAllTasks,
-  countCompletedTasks,
-  countInWorkTasks,
+  countTasks,
   filtered,
 }: FilterBtnType) => {
   return (
@@ -14,13 +12,13 @@ export const FilterBtn = ({
         className={filerTask === 'all' ? style.btnActive : style.btnFilter}
         onClick={() => filtered('all')}
       >
-        {<span>{`Все(${countAllTasks})`}</span>}
+        {<span>{`Все(${countTasks.all})`}</span>}
       </button>
       <button
         className={filerTask === 'inWork' ? style.btnActive : style.btnFilter}
         onClick={() => filtered('inWork')}
       >
-        {<span>{`В работе(${countInWorkTasks})`}</span>}
+        {<span>{`В работе(${countTasks.inWork})`}</span>}
       </button>
       <button
         className={
@@ -28,7 +26,7 @@ export const FilterBtn = ({
         }
         onClick={() => filtered('completed')}
       >
-        {<span>{`Сделано(${countCompletedTasks})`}</span>}
+        {<span>{`Сделано(${countTasks.completed})`}</span>}
       </button>
     </div>
   );
