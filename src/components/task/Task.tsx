@@ -12,27 +12,27 @@ export const Task = ({
   removeTask,
   changeTaskStatus,
 }: TaskType) => {
-  const [isEdit, setEdit] = useState(true);
-  const [valueTaskTitle, setValueTaskTitle] = useState(title);
+  const [isEdit, setEdit] = useState(false);
+  const [TaskTitle, setTaskTitle] = useState(title);
 
   const handleChangeTask = (taskId: number, isDone: boolean) => {
     changeTaskStatus(taskId, isDone);
   };
 
   const handleEditTask = () => {
-    setEdit(false);
+    setEdit(true);
   };
 
   const handleCancelEditTask = () => {
-    setEdit(true);
-    setValueTaskTitle(title);
+    setEdit(false);
+    setTaskTitle(title);
   };
 
   const handleSaveTask = (taskId: number, title: string) => {
     editTaskTitle(taskId, title);
-    setEdit(true);
+    setEdit(false);
   };
-
+  console.log(isEdit);
   return (
     <>
       <li key={id} className={style.itemTask}>
@@ -44,39 +44,42 @@ export const Task = ({
           />
 
           {isEdit ? (
-            <span 
-              className={isDone ? style.taskDone : style.task}>
+            <input
+              value={TaskTitle}
+              onChange={(e) => setTaskTitle(e.currentTarget.value)}
+            />
+          ) : (
+            <span className={isDone ? style.taskDone : style.task}>
               {title}
             </span>
-          ) : (
-            <input
-              value={valueTaskTitle}
-              onChange={(e) => setValueTaskTitle(e.currentTarget.value)}
-            />
           )}
         </div>
         <div className={style.wrapperItemsBtn}>
           {isEdit ? (
             <>
-              <Button title={'edit'} onClick={handleEditTask}>
-                <Icons name="EditIcon" color="black" />
-              </Button>
-              <Button title={'remove'} className={title=== 'remove' ? style.remove: ""} onClick={() => removeTask(id)}>
-                <Icons name="RemoveIcon" color="red" />
-              </Button>
-            </>
-          ) : (
-            <>
               <Button
                 title={'saveIcon'}
                 onClick={() => {
-                  handleSaveTask(id, valueTaskTitle);
+                  handleSaveTask(id, TaskTitle);
                 }}
               >
                 <Icons name="SaveIcon" color="black" />
               </Button>
               <Button title={'cancel'} onClick={handleCancelEditTask}>
                 <Icons name="CancelIcon" color="black" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button title={'edit'} onClick={handleEditTask}>
+                <Icons name="EditIcon" color="black" />
+              </Button>
+              <Button
+                title={'remove'}
+                className={title === 'remove' ? style.remove : ''}
+                onClick={() => removeTask(id)}
+              >
+                <Icons name="RemoveIcon" color="red" />
               </Button>
             </>
           )}

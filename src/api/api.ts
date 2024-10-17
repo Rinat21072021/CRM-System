@@ -51,9 +51,7 @@ export const fetchRemoveTask = async (id: number) => {
   };
   try {
     const result = await fetch(`${baseUrl}/${id}`, requestOptions);
-    const data = await result.json();
-    console.log(data);
-    return data;
+    return result;
   } catch (error) {
     throw error;
   }
