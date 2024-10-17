@@ -5,7 +5,14 @@ import style from './TodoStyle.module.scss';
 import { Task } from '../task/Task';
 import { filterValueType, Todo } from '../../type/type';
 import { FilterBtn } from '../filterBtn/FilterBtn';
-import { fetchAddTask, fetchChangeTaskStatus, fetchEditTaskTitle, fetchFilteredTasks, fetchRemoveTask, fetchTasks } from '../../api/api';
+import {
+  fetchAddTask,
+  fetchChangeTaskStatus,
+  fetchEditTaskTitle,
+  fetchFilteredTasks,
+  fetchRemoveTask,
+  fetchTasks,
+} from '../../api/api';
 
 export const Todolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
@@ -16,36 +23,42 @@ export const Todolist = () => {
 
   const validText = text.length > 2 && text.length < 64;
 
+  const fetchData = async () => {
+    const getTasks = await fetchTasks();
+    const tasks = await getTasks.data;
+    setTasks(tasks);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetchTasks('?filter=all');
-      const tasks = await result.data;
-      setTasks(tasks);
-    };
     fetchData();
   }, []);
 
   const addTask = async (title: string) => {
-    const task = await fetchAddTask(title);
-
-    setTasks([task, ...tasks]);
+    const newTask = await fetchAddTask(title);
+    fetchData();
   };
 
   const editTaskTitle = async (id: number, title: string) => {
-    const result = await fetchEditTaskTitle(id, title);
+    const resultEditTask = await fetchEditTaskTitle(id, title);
+    const getTasks = await fetchTasks();
+    const tasks = await getTasks.data;
     setTasks(
-      tasks.map((eTask) => (id === eTask.id ? { ...eTask, title } : eTask)),
+      tasks.map((eTask: Todo) =>
+        id === eTask.id ? { ...eTask, title } : eTask,
+      ),
     );
   };
 
   const removeTask = async (id: number) => {
     const result = await fetchRemoveTask(id);
-    setTasks(tasks.filter((el) => el.id !== id));
+    fetchData();
   };
 
   const changeTaskStatus = async (id: number, isDone: boolean) => {
     const result = await fetchChangeTaskStatus(id, isDone);
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, isDone } : t)));
+    const getTasks = await fetchTasks();
+    const tasks = await getTasks.data;
+    setTasks(tasks.map((t: Todo) => (t.id === id ? { ...t, isDone } : t)));
   };
 
   const setFilteredTasks = (filterTask: filterValueType) => {
@@ -58,10 +71,10 @@ export const Todolist = () => {
       const countTasks = await result.info;
       const filteredTasks = await result.data;
       setCountTasks(countTasks);
-    
+
       return filteredTasks;
     };
-     fetchData();
+    // fetchData();
 
     if (filerTask === 'completed') {
       filteredTasks = tasks.filter((fTasks) => fTasks.isDone);
@@ -71,7 +84,7 @@ export const Todolist = () => {
   };
 
   const resultTasks = getFilteredTasks();
-  
+
   const handleAddTask = () => {
     if (validText) {
       addTask(text);

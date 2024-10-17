@@ -1,10 +1,11 @@
 import { filterValueType } from '../type/type';
 
 const baseUrl = 'https://easydev.club/api/v1/todos';
+const currentTasks = '?filter=all'
 
-export const fetchTasks = async (url: string) => {
+export const fetchTasks = async () => {
   try {
-    const result = await fetch(`${baseUrl}${url}`);
+    const result = await fetch(`${baseUrl}${currentTasks}`);
     const res = result.json();
     const data = await res;
     return data;
