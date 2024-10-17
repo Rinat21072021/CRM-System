@@ -32,7 +32,7 @@ export const Task = ({
     editTaskTitle(taskId, title);
     setEdit(false);
   };
-  console.log(isEdit);
+
   return (
     <>
       <li key={id} className={style.itemTask}>
