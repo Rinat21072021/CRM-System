@@ -1,14 +1,14 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes} from 'react';
 import style from './Button.module.scss';
 
 export type ButtonType = {
   onClick: () => void;
   disabled?: boolean;
   title?: string
-  children?: ReactNode;
+  icon:string
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ onClick, disabled, title, children }: ButtonType) => {
+export const Button = ({ onClick, disabled, title, icon }: ButtonType) => {
   const handleOnClick = () => {
     onClick();
   };
@@ -19,7 +19,7 @@ export const Button = ({ onClick, disabled, title, children }: ButtonType) => {
       disabled={disabled}
       onClick={handleOnClick}
     >
-      {children}
+      <img src={icon} alt="img" />
     </button>
   );
 };

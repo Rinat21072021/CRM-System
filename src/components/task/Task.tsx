@@ -1,7 +1,10 @@
-import { Icons } from '../../img/Icons';
 import { Button } from '../button/Button';
 import style from '../../components/todolist/TodoStyle.module.scss';
 import { useState } from 'react';
+import cancelIcon from '../../assets/img/cancelIcon.svg';
+import editIcon from '../../assets/img/editIcon.svg';
+import removeIcon from '../../assets/img/removeIcon.svg';
+import saveIcon from '../../assets/img/saveIcon.svg';
 
 export type TaskType = {
   id: number;
@@ -68,29 +71,31 @@ export const Task = ({
           {isEdit ? (
             <>
               <Button
+                icon={saveIcon}
                 title={'saveIcon'}
                 onClick={() => {
                   handleSaveTask(id, TaskTitle);
                 }}
-              >
-                <Icons name="SaveIcon" color="black" />
-              </Button>
-              <Button title={'cancel'} onClick={handleCancelEditTask}>
-                <Icons name="CancelIcon" color="black" />
-              </Button>
+              ></Button>
+              <Button
+                icon={cancelIcon}
+                title={'cancel'}
+                onClick={handleCancelEditTask}
+              ></Button>
             </>
           ) : (
             <>
-              <Button title={'edit'} onClick={handleEditTask}>
-                <Icons name="EditIcon" color="black" />
-              </Button>
               <Button
+                icon={editIcon}
+                title={'edit'}
+                onClick={handleEditTask}
+              ></Button>
+              <Button
+                icon={removeIcon}
                 title={'remove'}
                 className={title === 'remove' ? style.remove : ''}
                 onClick={() => removeTask(id)}
-              >
-                <Icons name="RemoveIcon" color="red" />
-              </Button>
+              ></Button>
             </>
           )}
         </div>

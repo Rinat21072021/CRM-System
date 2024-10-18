@@ -11,7 +11,6 @@ import {
   fetchEditTaskTitle,
   fetchFilteredTasks,
   fetchRemoveTask,
-  fetchTasks,
 } from '../../api/api';
 
 export const Todolist = () => {
@@ -25,63 +24,38 @@ export const Todolist = () => {
 
   const filteredTasks = async () => {
     const getTasks = await fetchFilteredTasks(filterTask);
-    const tasks = await getTasks.data;
+    const tasks = getTasks.data;
+    const countTasks = getTasks.info;
+    setCountTasks(countTasks);
     setTasks(tasks);
   };
 
   useEffect(() => {
-    const fetchData = async ()=>{
-      const getTasks = await fetchTasks();
-      const countTasks = await getTasks.info;
-      const tasks = await getTasks.data;
-      setTasks(tasks);
-      setCountTasks(countTasks);
-    }
-    fetchData()
+    filteredTasks();
   }, []);
 
   const addTask = async (title: string) => {
     const newTask = await fetchAddTask(title);
-    filteredTasks()
+    filteredTasks();
   };
 
   const editTaskTitle = async (id: number, title: string) => {
     const resultEditTask = await fetchEditTaskTitle(id, title);
-    const getTasks = await fetchFilteredTasks(filterTask);
-    const countTasks = await getTasks.info;
-    const tasks = await getTasks.data;
-    setCountTasks(countTasks);
-    setTasks(
-      tasks.map((eTask: Todo) =>
-        id === eTask.id ? { ...eTask, title } : eTask,
-      ),
-    );
+    filteredTasks();
   };
 
   const removeTask = async (id: number) => {
     const result = await fetchRemoveTask(id);
-    filteredTasks()
+    filteredTasks();
   };
 
   const changeTaskStatus = async (id: number, isDone: boolean) => {
     const result = await fetchChangeTaskStatus(id, isDone);
-    const getTasks = await fetchFilteredTasks(filterTask);
-    const countTasks = await getTasks.info;
-    setCountTasks(countTasks);
-    const tasks = await getTasks.data;
-    setTasks(tasks.map((t: Todo) => (t.id === id ? { ...t, isDone } : t)));
-  };
-
-  const getFilteredTasks = async () => {
-    const result = await fetchFilteredTasks(filterTask);
-    const countTasks = await result.info;
-    let filteredTasks = await result.data;
-    setTasks(filteredTasks);
-    setCountTasks(countTasks);
+    filteredTasks();
   };
 
   useEffect(() => {
-    getFilteredTasks();
+    filteredTasks();
   }, [filterTask]);
 
   const handleAddTask = () => {
