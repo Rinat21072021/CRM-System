@@ -1,4 +1,4 @@
-import { filterValueType } from '../type/type';
+import { FilterValueType } from '../type/type';
 
 const baseUrl = 'https://easydev.club/api/v1/todos';
 const currentTasks = '?filter=all'
@@ -72,7 +72,7 @@ export const fetchChangeTaskStatus = async (id: number, isDone: boolean) => {
   }
 };
 
-export const fetchFilteredTasks = async (value: filterValueType) => {
+export const fetchFilteredTasks = async (value: FilterValueType) => {
   try {
     const result = await fetch(`${baseUrl}?filter=${value}`);
     const data = await result.json();

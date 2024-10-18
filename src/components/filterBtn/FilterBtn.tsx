@@ -1,5 +1,13 @@
-import { FilterBtnType, filterValueType } from '../../type/type';
+
+import { ButtonHTMLAttributes } from 'react';
+import { FilterValueType } from '../../type/type';
 import style from './FilterBtn.module.scss';
+
+export type FilterBtnType = {
+  filerTask: FilterValueType;
+  countTasks: any;
+  filtered: (filter: FilterValueType) => void;
+}& ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const FilterBtn = ({
   filerTask,

@@ -1,6 +1,12 @@
+import { ChangeEvent } from 'react';
 import style from './InputText.module.scss';
-import { InputTextType } from '../../type/type';
-import { useInputText } from './hooks/useInputText';
+
+export type InputTextType = {
+  text: string;
+  setText: (text: string) => void;
+  setError: (error: boolean) => void;
+  onClick?: () => void;
+};
 
 export const InputText = ({
   text,
@@ -8,7 +14,10 @@ export const InputText = ({
   setError,
   onClick,
 }: InputTextType) => {
-  const { handleOnChange } = useInputText(setText, setError);
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.currentTarget.value);
+    setError(false);
+  }
 
   return (
     <>

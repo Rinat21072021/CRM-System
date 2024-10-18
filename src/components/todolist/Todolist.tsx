@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { InputText } from '../inputText/InputText';
-import style from './TodoStyle.module.scss';
 
+import style from './TodoStyle.module.scss';
+import { InputText } from '../inputText/InputText';
 import { Task } from '../task/Task';
-import { filterValueType, Todo } from '../../type/type';
+import { FilterValueType, Todo } from '../../type/type';
 import { FilterBtn } from '../filterBtn/FilterBtn';
 import {
   fetchAddTask,
@@ -16,32 +16,41 @@ import {
 
 export const Todolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
-  const [filerTask, setFilerTask] = useState<filterValueType>('all');
+  const [filterTask, setFilerTask] = useState<FilterValueType>('all');
   const [text, setText] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [countTasks, setCountTasks] = useState({});
 
   const validText = text.length > 2 && text.length < 64;
 
-  const fetchData = async () => {
-    const getTasks = await fetchTasks();
+  const filteredTasks = async () => {
+    const getTasks = await fetchFilteredTasks(filterTask);
     const tasks = await getTasks.data;
     setTasks(tasks);
   };
 
   useEffect(() => {
-    fetchData();
+    const fetchData = async ()=>{
+      const getTasks = await fetchTasks();
+      const countTasks = await getTasks.info;
+      const tasks = await getTasks.data;
+      setTasks(tasks);
+      setCountTasks(countTasks);
+    }
+    fetchData()
   }, []);
 
   const addTask = async (title: string) => {
     const newTask = await fetchAddTask(title);
-    fetchData();
+    filteredTasks()
   };
 
   const editTaskTitle = async (id: number, title: string) => {
     const resultEditTask = await fetchEditTaskTitle(id, title);
-    const getTasks = await fetchTasks();
+    const getTasks = await fetchFilteredTasks(filterTask);
+    const countTasks = await getTasks.info;
     const tasks = await getTasks.data;
+    setCountTasks(countTasks);
     setTasks(
       tasks.map((eTask: Todo) =>
         id === eTask.id ? { ...eTask, title } : eTask,
@@ -51,39 +60,29 @@ export const Todolist = () => {
 
   const removeTask = async (id: number) => {
     const result = await fetchRemoveTask(id);
-    fetchData();
+    filteredTasks()
   };
 
   const changeTaskStatus = async (id: number, isDone: boolean) => {
     const result = await fetchChangeTaskStatus(id, isDone);
-    const getTasks = await fetchTasks();
+    const getTasks = await fetchFilteredTasks(filterTask);
+    const countTasks = await getTasks.info;
+    setCountTasks(countTasks);
     const tasks = await getTasks.data;
     setTasks(tasks.map((t: Todo) => (t.id === id ? { ...t, isDone } : t)));
   };
 
-  const setFilteredTasks = (filterTask: filterValueType) => {
-    setFilerTask(filterTask);
-  };
-  let filteredTasks = tasks;
   const getFilteredTasks = async () => {
-    const fetchData = async () => {
-      const result = await fetchFilteredTasks(filerTask);
-      const countTasks = await result.info;
-      const filteredTasks = await result.data;
-      setCountTasks(countTasks);
-
-      return filteredTasks;
-    };
-    // fetchData();
-
-    if (filerTask === 'completed') {
-      filteredTasks = tasks.filter((fTasks) => fTasks.isDone);
-    } else if (filerTask === 'inWork') {
-      filteredTasks = tasks.filter((fTask) => !fTask.isDone);
-    }
+    const result = await fetchFilteredTasks(filterTask);
+    const countTasks = await result.info;
+    let filteredTasks = await result.data;
+    setTasks(filteredTasks);
+    setCountTasks(countTasks);
   };
 
-  const resultTasks = getFilteredTasks();
+  useEffect(() => {
+    getFilteredTasks();
+  }, [filterTask]);
 
   const handleAddTask = () => {
     if (validText) {
@@ -94,8 +93,8 @@ export const Todolist = () => {
       setError(true);
     }
   };
-  const handleFiltered = (filter: filterValueType) => {
-    setFilteredTasks(filter);
+  const handleFiltered = (filter: FilterValueType) => {
+    setFilerTask(filter);
   };
 
   return (
@@ -113,17 +112,17 @@ export const Todolist = () => {
       </div>
       <FilterBtn
         countTasks={countTasks}
-        filerTask={filerTask}
+        filerTask={filterTask}
         filtered={(filter) => handleFiltered(filter)}
       />
       <div>
         <ul className={style.itemsList}>
-          {filteredTasks.map((task) => {
+          {tasks.map((task) => {
             return (
               <Task
                 key={task.id}
-                title={task.title}
                 id={task.id}
+                title={task.title}
                 isDone={task.isDone}
                 created={task.created}
                 editTaskTitle={editTaskTitle}
