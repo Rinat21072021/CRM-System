@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import style from './TodoStyle.module.scss';
 import { AddTask } from '../addTask/AddTask';
 import { Task } from '../task/Task';
-import { FilterValueType, Todo } from '../../type/type';
+import { FilterValue, Todo } from '../../type/type';
 import { TodoFilters } from '../todoFilters/TodoFilters';
 import {
   fetchAddTask,
@@ -15,7 +15,7 @@ import {
 
 export const Todolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
-  const [filterTask, setFilerTask] = useState<FilterValueType>('all');
+  const [filterTask, setFilerTask] = useState<FilterValue>('all');
   const [countTasks, setCountTasks] = useState({});
 
   const getPageData = async () => {
@@ -77,7 +77,7 @@ export const Todolist = () => {
     getPageData();
   }, [filterTask]);
 
-  const handleChangeFilter = (filter: FilterValueType) => {
+  const handleChangeFilter = (filter: FilterValue) => {
     setFilerTask(filter);
   };
 

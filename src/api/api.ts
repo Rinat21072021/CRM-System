@@ -1,4 +1,4 @@
-import { FilterValueType, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../type/type';
+import { FilterValue, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../type/type';
 
 const baseUrl = 'https://easydev.club/api/v1/todos';
 
@@ -60,7 +60,7 @@ export const fetchChangeTaskStatus = async (id: number, isDone: boolean) => {
   }
 };
 
-export const fetchFilteredTasks = async (value: FilterValueType) => {
+export const fetchFilteredTasks = async (value: FilterValue) => {
   try {
     const result = await fetch(`${baseUrl}?filter=${value}`);
     const data: MetaResponse<Todo, TodoInfo > = await result.json();

@@ -71,14 +71,14 @@ export const Task = ({
             <>
               <IconButton
                 icon={saveIcon}
-                title={'saveIcon'}
+                variant={'save'}
                 onClick={() => {
                   handleSaveTask(id, TaskTitle);
                 }}
               ></IconButton>
               <IconButton
                 icon={cancelIcon}
-                title={'cancel'}
+                variant={'cancel'}
                 onClick={handleCancelEditTask}
               ></IconButton>
             </>
@@ -86,7 +86,7 @@ export const Task = ({
             <>
               <IconButton
                 icon={editIcon}
-                title={'edit'}
+                variant={'edit'}
                 onClick={handleEditTask}
               ></IconButton>
               <IconButton

@@ -1,14 +1,20 @@
-import { ButtonHTMLAttributes} from 'react';
+import { ButtonHTMLAttributes } from 'react';
 import style from './Button.module.scss';
+import { VariantIconButton } from '../../type/type';
 
 export type IconButtonType = {
   onClick: () => void;
   disabled?: boolean;
-  variant?: string
-  icon:string
+  variant?: VariantIconButton;
+  icon: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const IconButton = ({ onClick, disabled, variant, icon }: IconButtonType) => {
+export const IconButton = ({
+  onClick,
+  disabled,
+  variant,
+  icon,
+}: IconButtonType) => {
   const handleOnClick = () => {
     onClick();
   };

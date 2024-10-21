@@ -1,4 +1,5 @@
-export type FilterValueType = 'all' | 'completed' | 'inWork';
+export type FilterValue = 'all' | 'completed' | 'inWork';
+export type VariantIconButton = 'save' | 'cancel' | 'edit' | 'remove';
 
 export interface Todo {
   id: number;
@@ -13,16 +14,16 @@ export type ResponseDataType = {
   meta: { totalAmount: number };
 };
 
-export interface TodoInfo { 
-	all: number
-	completed: number
-	inWork: number
+export interface TodoInfo {
+  all: number;
+  completed: number;
+  inWork: number;
 }
 
 export interface MetaResponse<T, N> {
-	data: T[]
-	info?: N
-	meta: {
-		totalAmount: number
-	}
+  data: T[];
+  info?: N;
+  meta: {
+    totalAmount: number;
+  };
 }
