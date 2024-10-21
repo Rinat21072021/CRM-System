@@ -1,4 +1,4 @@
-import { IconButton } from '../button/IconButton';
+import { IconButton } from '../iconButton/IconButton';
 import style from '../../components/todolist/TodoStyle.module.scss';
 import { useState } from 'react';
 import cancelIcon from '../../assets/img/cancelIcon.svg';

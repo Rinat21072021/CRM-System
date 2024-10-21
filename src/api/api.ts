@@ -1,8 +1,8 @@
-import { FilterValueType, ResponseDataType } from '../type/type';
+import { FilterValueType, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../type/type';
 
 const baseUrl = 'https://easydev.club/api/v1/todos';
 
-export const fetchAddTask = async (title: string) => {
+export const fetchAddTask = async (title: string): Promise<ResponseDataType> => {
   const requestOptions = {
     method: 'POST',
     headers: {
@@ -12,7 +12,7 @@ export const fetchAddTask = async (title: string) => {
   };
   try {
     const result = await fetch(baseUrl, requestOptions);
-    const data: Promise<ResponseDataType> = await result.json();
+    const data: ResponseDataType = await result.json();
     return data;
   } catch (error) {
     throw error;
@@ -27,7 +27,7 @@ export const fetchEditTaskTitle = async (id: number, title: string) => {
   };
   try {
     const result = await fetch(`${baseUrl}/${id}`, requestOptions);
-    const data: Promise<ResponseDataType> = await result.json();
+    const data: MetaResponse<Todo, TodoInfo > = await result.json();
     return data;
   } catch (error) {
     throw error;
@@ -54,7 +54,7 @@ export const fetchChangeTaskStatus = async (id: number, isDone: boolean) => {
   };
   try {
     const result = await fetch(`${baseUrl}/${id}`, requestOptions);
-    const data: Promise<ResponseDataType> = await result.json();
+    const data: MetaResponse<Todo, TodoInfo > = await result.json();
   } catch (error) {
     throw error;
   }
@@ -63,7 +63,7 @@ export const fetchChangeTaskStatus = async (id: number, isDone: boolean) => {
 export const fetchFilteredTasks = async (value: FilterValueType) => {
   try {
     const result = await fetch(`${baseUrl}?filter=${value}`);
-    const data: Promise<ResponseDataType> = await result.json();
+    const data: MetaResponse<Todo, TodoInfo > = await result.json();
 
     return data;
   } catch (error) {

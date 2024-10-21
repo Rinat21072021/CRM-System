@@ -12,3 +12,17 @@ export type ResponseDataType = {
   info: { all: number; completed: number; inWork: number };
   meta: { totalAmount: number };
 };
+
+export interface TodoInfo { 
+	all: number
+	completed: number
+	inWork: number
+}
+
+export interface MetaResponse<T, N> {
+	data: T[]
+	info?: N
+	meta: {
+		totalAmount: number
+	}
+}
