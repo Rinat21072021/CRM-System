@@ -40,7 +40,7 @@ export const Todolist = () => {
   const addTask = async (title: string) => {
     try {
       const newTask = await fetchAddTask(title);
-      getPageData();
+      await getPageData();
     } catch (error) {
       throw error;
     }
@@ -49,7 +49,7 @@ export const Todolist = () => {
   const editTaskTitle = async (id: number, title: string) => {
     try {
       const resultEditTask = await fetchEditTaskTitle(id, title);
-      getPageData();
+      await getPageData();
     } catch (error) {
       throw error;
     }
@@ -58,7 +58,7 @@ export const Todolist = () => {
   const removeTask = async (id: number) => {
     try {
       const result = await fetchRemoveTask(id);
-      getPageData();
+      await getPageData();
     } catch (error) {
       throw error;
     }
@@ -67,7 +67,7 @@ export const Todolist = () => {
   const changeTaskStatus = async (id: number, isDone: boolean) => {
     try {
       const result = await fetchChangeTaskStatus(id, isDone);
-      getPageData();
+      await getPageData();
     } catch (error) {
       throw error;
     }
