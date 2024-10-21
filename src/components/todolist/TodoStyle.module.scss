@@ -10,6 +10,7 @@
   justify-content: space-between;
   width: 100%;
   flex-wrap: wrap;
+  
 }
 
 
@@ -42,7 +43,7 @@
 
 
 }
-//TODO доделать три точки на span
+
 span {
   overflow: hidden;
   display: -webkit-box;
@@ -53,14 +54,4 @@ span {
 .taskDone {
   text-decoration: line-through;
   opacity: 0.5;
-}
-
-.notError {
-  padding: 10px;
-  visibility: hidden;
-}
-
-.error {
-  padding: 10px;
-  color: red;
 }

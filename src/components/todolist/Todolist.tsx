@@ -16,11 +16,7 @@ import {
 export const Todolist = () => {
   let [tasks, setTasks] = useState<Todo[]>([]);
   const [filterTask, setFilerTask] = useState<FilterValueType>('all');
-  const [text, setText] = useState<string>('');
-  const [error, setError] = useState<boolean>(false);
   const [countTasks, setCountTasks] = useState({});
-
-  const validText = text.length > 2 && text.length < 64;
 
   const filteredTasks = async () => {
     const getTasks = await fetchFilteredTasks(filterTask);
@@ -58,15 +54,6 @@ export const Todolist = () => {
     filteredTasks();
   }, [filterTask]);
 
-  const handleAddTask = () => {
-    if (validText) {
-      addTask(text);
-      setText('');
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
   const handleFiltered = (filter: FilterValueType) => {
     setFilerTask(filter);
   };
@@ -75,14 +62,9 @@ export const Todolist = () => {
     <div className={style.todoList}>
       <div className={style.addInput}>
         <InputText
-          setText={setText}
-          setError={setError}
-          text={text}
-          onClick={() => handleAddTask()}
+          onClick={(title:string) => addTask(title)}
         />
-        <div className={error ? style.error : style.notError}>
-          Text must be more than 2 and less than 62 characters
-        </div>
+       
       </div>
       <FilterBtn
         countTasks={countTasks}
@@ -102,7 +84,6 @@ export const Todolist = () => {
                 editTaskTitle={editTaskTitle}
                 removeTask={removeTask}
                 changeTaskStatus={changeTaskStatus}
-                setError={setError}
               />
             );
           })}

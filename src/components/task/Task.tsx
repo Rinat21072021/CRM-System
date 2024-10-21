@@ -14,7 +14,6 @@ export type TaskType = {
   editTaskTitle: (id: number, title: string) => void;
   removeTask: (id: number) => void;
   changeTaskStatus: (id: number, isDone: boolean) => void;
-  setError: (error: boolean) => void;
 };
 
 export const Task = ({

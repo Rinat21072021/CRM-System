@@ -15,3 +15,13 @@
   border-radius: 6px;
   color: white;
 }
+
+.notError {
+  padding: 10px;
+  visibility: hidden;
+}
+
+.error {
+  padding: 10px;
+  color: red;
+}
