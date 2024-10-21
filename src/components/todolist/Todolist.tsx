@@ -13,8 +13,8 @@ import {
   fetchRemoveTask,
 } from '../../api/api';
 
-export const Todolist = () => {
-  let [tasks, setTasks] = useState<Todo[]>([]);
+export const TodoListPage = () => {
+  let [todoList, setTodoList] = useState<Todo[]>([]);
   const [filterTask, setFilerTask] = useState<FilterValue>('all');
   const [countTasks, setCountTasks] = useState({});
 
@@ -27,7 +27,7 @@ export const Todolist = () => {
       if (countTasks !== undefined) {
         setCountTasks(countTasks);
       }
-      setTasks(tasks);
+      setTodoList(tasks);
     } catch (error) {
       throw error;
     }
@@ -93,7 +93,7 @@ export const Todolist = () => {
       />
       <div>
         <ul className={style.itemsList}>
-          {tasks.map((task) => {
+          {todoList.map((task) => {
             return (
               <Task
                 key={task.id}

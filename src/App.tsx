@@ -1,10 +1,10 @@
 import './App.scss';
-import { Todolist } from './components/todolist/Todolist';
+import { TodoListPage } from './components/todolist/Todolist';
 
 function App() {
   return (
     <div className="App">
-      <Todolist />
+      <TodoListPage />
     </div>
   );
 }
