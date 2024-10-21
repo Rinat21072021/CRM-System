@@ -1,13 +1,13 @@
 import { ChangeEvent, useState } from 'react';
-import style from './InputText.module.scss';
+import style from './AddTask.module.scss';
 
-export type InputTextType = {
+export type AddTaskType = {
   onClick: (title:string) => void 
 };
 
-export const InputText = ({
+export const AddTask = ({
   onClick
-}: InputTextType) => {
+}: AddTaskType) => {
 
 const [title, setTitle] = useState('')
 const [error, setError] = useState<boolean>(false);

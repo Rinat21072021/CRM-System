@@ -1,4 +1,4 @@
-import { Button } from '../button/Button';
+import { IconButton } from '../button/IconButton';
 import style from '../../components/todolist/TodoStyle.module.scss';
 import { useState } from 'react';
 import cancelIcon from '../../assets/img/cancelIcon.svg';
@@ -69,32 +69,32 @@ export const Task = ({
         <div className={style.wrapperItemsBtn}>
           {isEdit ? (
             <>
-              <Button
+              <IconButton
                 icon={saveIcon}
                 title={'saveIcon'}
                 onClick={() => {
                   handleSaveTask(id, TaskTitle);
                 }}
-              ></Button>
-              <Button
+              ></IconButton>
+              <IconButton
                 icon={cancelIcon}
                 title={'cancel'}
                 onClick={handleCancelEditTask}
-              ></Button>
+              ></IconButton>
             </>
           ) : (
             <>
-              <Button
+              <IconButton
                 icon={editIcon}
                 title={'edit'}
                 onClick={handleEditTask}
-              ></Button>
-              <Button
+              ></IconButton>
+              <IconButton
                 icon={removeIcon}
-                title={'remove'}
+                variant={'remove'}
                 className={title === 'remove' ? style.remove : ''}
                 onClick={() => removeTask(id)}
-              ></Button>
+              ></IconButton>
             </>
           )}
         </div>

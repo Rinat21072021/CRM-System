@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import style from './TodoStyle.module.scss';
-import { InputText } from '../inputText/InputText';
+import { AddTask } from '../inputText/AddTask';
 import { Task } from '../task/Task';
 import { FilterValueType, Todo } from '../../type/type';
-import { FilterBtn } from '../filterBtn/FilterBtn';
+import { TodoFilters } from '../filterBtn/TodoFilters';
 import {
   fetchAddTask,
   fetchChangeTaskStatus,
@@ -61,12 +61,9 @@ export const Todolist = () => {
   return (
     <div className={style.todoList}>
       <div className={style.addInput}>
-        <InputText
-          onClick={(title:string) => addTask(title)}
-        />
-       
+        <AddTask onClick={(title: string) => addTask(title)} />
       </div>
-      <FilterBtn
+      <TodoFilters
         countTasks={countTasks}
         filerTask={filterTask}
         filtered={(filter) => handleFiltered(filter)}
