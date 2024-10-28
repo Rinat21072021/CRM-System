@@ -12,12 +12,28 @@ import {
 import googleIcon from '../../assets/authImg/google.png';
 import logo from '../../assets/authImg/logo.png';
 import style from './LoginForm.module.scss';
+import axios from 'axios';
+import { useState } from 'react';
 
 const { Text, Title } = Typography;
-
+const baseURL = 'https://easydev.club/api/v1/auth/signup';
 export const LoginForm = () => {
+  const [title, setTitle] = useState('')
+  const [password, setPassword] = useState('')
+
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
+  };
+  const handleSubmitAuthorization = () => {
+    try{
+      const instance = axios.post(baseURL, {
+        firstName: title,
+        lastName: password,
+      }).then(res=>console.log(res.data))
+    }catch (error){
+      console.log(error)
+    }
+   
   };
 
   return (
@@ -68,7 +84,7 @@ export const LoginForm = () => {
                 { required: true, message: 'Please input your Username!' },
               ]}
             >
-              <Input placeholder="mail@abc.com" />
+              <Input placeholder="mail@abc.com" value={title} onChange={(e)=>setTitle(e.currentTarget.value)}/>
             </Form.Item>
             <Form.Item
               name="password"
@@ -76,18 +92,25 @@ export const LoginForm = () => {
                 { required: true, message: 'Please input your Password!' },
               ]}
             >
-              <Input type="password" placeholder="***********" />
+              <Input type="password" placeholder="***********" value={password} onChange={(e)=>setPassword(e.currentTarget.value)} />
             </Form.Item>
             <Form.Item>
               <Flex justify="space-between" align="center">
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-                <a href="" color='#7F265B'>Forgot password</a>
+                <a href="" color="#7F265B">
+                  Forgot password
+                </a>
               </Flex>
             </Form.Item>
             <Form.Item>
-              <Button block type="primary" htmlType="submit">
+              <Button
+                onClick={handleSubmitAuthorization}
+                block
+                type="primary"
+                htmlType="submit"
+              >
                 Log in
               </Button>
             </Form.Item>
