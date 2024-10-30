@@ -1,8 +1,9 @@
 import { Col, Row, Image } from 'antd';
 
-import img from '../assets/authImg/illustration.png';
-
+import img from '../../assets/authImg/illustration.png';
 import { LoginForm } from './loginForm/LoginForm';
+
+
 
 export const AuthPage = () => {
   return (

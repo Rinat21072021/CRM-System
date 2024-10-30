@@ -9,8 +9,8 @@ import {
   ConfigProvider,
   Space,
 } from 'antd';
-import googleIcon from '../../assets/authImg/google.png';
-import logo from '../../assets/authImg/logo.png';
+import googleIcon from '../../../assets/authImg/google.png';
+import logo from '../../../assets/authImg/logo.png';
 import style from './LoginForm.module.scss';
 import axios from 'axios';
 import { useState } from 'react';
