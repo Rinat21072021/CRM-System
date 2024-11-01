@@ -14,26 +14,28 @@ import logo from '../../../assets/authImg/logo.png';
 import style from './LoginForm.module.scss';
 import axios from 'axios';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthData } from '../../../type/type';
 
 const { Text, Title } = Typography;
-const baseURL = 'https://easydev.club/api/v1/auth/signup';
+const baseURL = 'https://easydev.club/api/v1/auth/signin';
 export const LoginForm = () => {
-  const [title, setTitle] = useState('')
-  const [password, setPassword] = useState('')
+  const [title, setTitle] = useState('');
+  const [password, setPassword] = useState('');
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
-  const handleSubmitAuthorization = () => {
-    try{
-      const instance = axios.post(baseURL, {
-        firstName: title,
-        lastName: password,
-      }).then(res=>console.log(res.data))
-    }catch (error){
-      console.log(error)
+  const handleSubmitAuthorization = async () => {
+    try {
+      const res = await axios.post<AuthData>(baseURL, {
+        login: title,
+        password: password,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
     }
-   
   };
 
   return (
@@ -84,7 +86,11 @@ export const LoginForm = () => {
                 { required: true, message: 'Please input your Username!' },
               ]}
             >
-              <Input placeholder="mail@abc.com" value={title} onChange={(e)=>setTitle(e.currentTarget.value)}/>
+              <Input
+                placeholder="mail@abc.com"
+                value={title}
+                onChange={(e) => setTitle(e.currentTarget.value)}
+              />
             </Form.Item>
             <Form.Item
               name="password"
@@ -92,7 +98,12 @@ export const LoginForm = () => {
                 { required: true, message: 'Please input your Password!' },
               ]}
             >
-              <Input type="password" placeholder="***********" value={password} onChange={(e)=>setPassword(e.currentTarget.value)} />
+              <Input
+                type="password"
+                placeholder="***********"
+                value={password}
+                onChange={(e) => setPassword(e.currentTarget.value)}
+              />
             </Form.Item>
             <Form.Item>
               <Flex justify="space-between" align="center">
@@ -114,7 +125,15 @@ export const LoginForm = () => {
                 Log in
               </Button>
             </Form.Item>
-            Not Registered Yet? <a href="">Create an account</a>
+            Not Registered Yet?{' '}
+            <NavLink
+              to="/create"
+              className={({ isActive, isPending }) =>
+                isPending ? 'pending' : isActive ? 'active' : ''
+              }
+            >
+              Create an account
+            </NavLink>
           </Form>
         </Flex>
       </ConfigProvider>

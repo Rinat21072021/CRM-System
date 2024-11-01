@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import type { CascaderProps } from 'antd';
 import { Button, Checkbox, Form, Input, Select } from 'antd';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUserRegistration } from '../../authSlice/authSlise';
+import { UserRegistration } from '../../../type/type';
 
 const { Option } = Select;
-
-interface DataNodeType {
-  value: string;
-  label: string;
-  children?: DataNodeType[];
-}
 
 const formItemLayout = {
   labelCol: {
@@ -37,10 +34,10 @@ const tailFormItemLayout = {
 
 export const CreateAccauntForm: React.FC = () => {
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch();
   const onFinish = async (values: any) => {
     try {
-      await axios.post('https://easydev.club/api/v1/auth/signup', {
+      await axios.post<UserRegistration>('https://easydev.club/api/v1/auth/signup', {
         email: values.email,
         login: values.nickname,
         password: values.confirm,
@@ -147,23 +144,6 @@ export const CreateAccauntForm: React.FC = () => {
         <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
       </Form.Item>
 
-      {/* <Form.Item
-        name="agreement"
-        valuePropName="checked"
-        rules={[
-          {
-            validator: (_, value) =>
-              value
-                ? Promise.resolve()
-                : Promise.reject(new Error('Should accept agreement')),
-          },
-        ]}
-        {...tailFormItemLayout}
-      >
-        <Checkbox>
-          I have read the <a href="">agreement</a>
-        </Checkbox>
-      </Form.Item> */}
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
           Register
