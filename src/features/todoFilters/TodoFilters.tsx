@@ -1,13 +1,12 @@
-
 import { ButtonHTMLAttributes } from 'react';
-import { FilterValue } from '../../type/type';
+import { FilterValue } from '../../common/type/type';
 import style from './TodoFilters.module.scss';
 
 export type TodoFiltersType = {
   filerTask: FilterValue;
   countTasks: any;
   filtered: (filter: FilterValue) => void;
-}& ButtonHTMLAttributes<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const TodoFilters = ({
   filerTask,

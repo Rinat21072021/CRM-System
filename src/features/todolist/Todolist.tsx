@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import style from './TodoStyle.module.scss';
 import { AddTask } from '../addTask/AddTask';
 import { Task } from '../task/Task';
-import { FilterValue, Todo } from '../../type/type';
+import { FilterValue, Todo } from '../../common/type/type';
 import { TodoFilters } from '../todoFilters/TodoFilters';
 import {
   fetchAddTask,

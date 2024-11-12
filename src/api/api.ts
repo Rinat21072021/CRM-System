@@ -1,6 +1,13 @@
-import { FilterValue, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../type/type';
+import axios from 'axios';
+import { FilterValue, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../common/type/type'
 
 const baseUrl = 'https://easydev.club/api/v1/todos';
+const instance = axios.create({
+  baseURL: 'https://easydev.club/api/v1/',
+  headers: {
+    'Content-Type': 'application/json; charset=UTF-8',
+  },
+});
 
 export const fetchAddTask = async (title: string): Promise<ResponseDataType> => {
   const requestOptions = {
@@ -11,8 +18,8 @@ export const fetchAddTask = async (title: string): Promise<ResponseDataType> => 
     body: JSON.stringify({ title: title, isDone: false }),
   };
   try {
-    const result = await fetch(baseUrl, requestOptions);
-    const data: ResponseDataType = await result.json();
+    const result = await instance.post<ResponseDataType>('todos',{title, isDone: false});
+    const data = result.data;
     return data;
   } catch (error) {
     throw error;

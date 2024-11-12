@@ -1,5 +1,5 @@
-import { IconButton } from '../iconButton/IconButton';
-import style from '../../components/todolist/TodoStyle.module.scss';
+import { IconButton } from '../../common/components/iconButton/IconButton';
+import style from '../todolist/TodoStyle.module.scss';
 import { useState } from 'react';
 import cancelIcon from '../../assets/img/cancelIcon.svg';
 import editIcon from '../../assets/img/editIcon.svg';

@@ -3,19 +3,18 @@ import {
   Button,
   Checkbox,
   Form,
-  Input,
   Flex,
   Typography,
   ConfigProvider,
-  Space,
+  Input,
 } from 'antd';
-import googleIcon from '../../../assets/authImg/google.png';
-import logo from '../../../assets/authImg/logo.png';
+import googleIcon from '../../../../assets/authImg/google.png';
+import logo from '../../../../assets/authImg/logo.png';
 import style from './LoginForm.module.scss';
 import axios from 'axios';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthData } from '../../../type/type';
+import { AuthData } from '../../../../common/type/type';
 
 const { Text, Title } = Typography;
 const baseURL = 'https://easydev.club/api/v1/auth/signin';

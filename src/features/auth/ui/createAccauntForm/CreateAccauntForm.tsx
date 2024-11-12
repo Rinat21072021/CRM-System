@@ -3,8 +3,8 @@ import type { CascaderProps } from 'antd';
 import { Button, Checkbox, Form, Input, Select } from 'antd';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setUserRegistration } from '../../authSlice/authSlise';
-import { UserRegistration } from '../../../type/type';
+import { setUserRegistration } from '../../modal/authSlise';
+import { UserRegistration } from '../../../../common/type/type';
 
 const { Option } = Select;
 
@@ -37,13 +37,16 @@ export const CreateAccauntForm: React.FC = () => {
   const dispatch = useDispatch();
   const onFinish = async (values: any) => {
     try {
-      await axios.post<UserRegistration>('https://easydev.club/api/v1/auth/signup', {
-        email: values.email,
-        login: values.nickname,
-        password: values.confirm,
-        phoneNumber: values.phone,
-        username: values.nickname,
-      });
+      await axios.post<UserRegistration>(
+        'https://easydev.club/api/v1/auth/signup',
+        {
+          email: values.email,
+          login: values.nickname,
+          password: values.confirm,
+          phoneNumber: values.phone,
+          username: values.nickname,
+        },
+      );
     } catch (error) {
       throw error;
     }

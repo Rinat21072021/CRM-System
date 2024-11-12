@@ -8,10 +8,10 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import ErrorPage from './pages/errorPage/ErrorPage';
-import { TodoListPage } from './components/todolist/Todolist';
-import { AuthPage } from './features/auth/Auth';
-import { CreateAccauntForm } from './features/auth/createAccauntForm/CreateAccauntForm';
-import { store } from './store/store';
+import { TodoListPage } from './features/todolist/Todolist';
+import { AuthPage } from './pages/AuthPage';
+import { CreateAccauntForm } from './features/auth/ui/createAccauntForm/CreateAccauntForm';
+import { store } from './app/store';
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
