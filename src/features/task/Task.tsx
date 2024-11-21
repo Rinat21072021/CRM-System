@@ -5,14 +5,14 @@ import cancelIcon from '../../assets/img/cancelIcon.svg';
 import editIcon from '../../assets/img/editIcon.svg';
 import removeIcon from '../../assets/img/removeIcon.svg';
 import saveIcon from '../../assets/img/saveIcon.svg';
+import { useRemoveTaskMutation } from '../../api/api';
 
 export type TaskType = {
   id: number;
   title: string;
   isDone: boolean;
   created: string;
-  editTaskTitle: (id: number, title: string) => void;
-  removeTask: (id: number) => void;
+  editTitleHeading: (id: number, title:string)=>void
   changeTaskStatus: (id: number, isDone: boolean) => void;
 };
 
@@ -20,12 +20,13 @@ export const Task = ({
   id,
   title,
   isDone,
-  editTaskTitle,
-  removeTask,
+  editTitleHeading,
   changeTaskStatus,
 }: TaskType) => {
   const [isEdit, setEdit] = useState(false);
   const [TaskTitle, setTaskTitle] = useState(title);
+  const [removeTask] = useRemoveTaskMutation();
+  
 
   const handleChangeTask = (taskId: number, isDone: boolean) => {
     changeTaskStatus(taskId, isDone);
@@ -41,8 +42,12 @@ export const Task = ({
   };
 
   const handleSaveTask = (taskId: number, title: string) => {
-    editTaskTitle(taskId, title);
+    editTitleHeading(taskId, title);
     setEdit(false);
+  };
+
+  const handleRemoveTask = async (id: number) => {
+   await removeTask({ id });
   };
 
   return (
@@ -93,7 +98,7 @@ export const Task = ({
                 icon={removeIcon}
                 variant={'remove'}
                 className={title === 'remove' ? style.remove : ''}
-                onClick={() => removeTask(id)}
+                onClick={() => handleRemoveTask(id)}
               ></IconButton>
             </>
           )}

@@ -6,59 +6,27 @@ import { Task } from '../task/Task';
 import { FilterValue, Todo } from '../../common/type/type';
 import { TodoFilters } from '../todoFilters/TodoFilters';
 import {
-  fetchAddTask,
-  fetchChangeTaskStatus,
-  fetchEditTaskTitle,
-  fetchFilteredTasks,
-  fetchRemoveTask,
+  useAddTaskMutation,
+  useEditTaskTitleMutation,
+  useGetFilteredTasksQuery,
+  useToggleTaskStatusMutation,
 } from '../../api/api';
 
 export const TodoListPage = () => {
-  let [todoList, setTodoList] = useState<Todo[]>([]);
+
   const [filterTask, setFilerTask] = useState<FilterValue>('all');
-  const [countTasks, setCountTasks] = useState({});
+  // const [countTasks, setCountTasks] = useState({});
 
-  const getPageData = async () => {
+const {data: todoList, isLoading} = useGetFilteredTasksQuery(filterTask)
+const [addTask] = useAddTaskMutation()
+const [editTaskTitle] = useEditTaskTitleMutation()
+const [toggleTaskStatus] = useToggleTaskStatusMutation()
+
+const countTasks = todoList?.info
+
+  const editTitleHeading = async (id: number, title: string) => {
     try {
-      const getTasks = await fetchFilteredTasks(filterTask);
-      const tasks = getTasks.data;
-      const countTasks = getTasks.info;
-
-      if (countTasks !== undefined) {
-        setCountTasks(countTasks);
-      }
-      setTodoList(tasks);
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  useEffect(() => {
-    getPageData();
-  }, []);
-
-  const addTask = async (title: string) => {
-    try {
-      const newTask = await fetchAddTask(title);
-      await getPageData();
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const editTaskTitle = async (id: number, title: string) => {
-    try {
-      const resultEditTask = await fetchEditTaskTitle(id, title);
-      await getPageData();
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const removeTask = async (id: number) => {
-    try {
-      const result = await fetchRemoveTask(id);
-      await getPageData();
+      await editTaskTitle({id, title});
     } catch (error) {
       throw error;
     }
@@ -66,25 +34,20 @@ export const TodoListPage = () => {
 
   const changeTaskStatus = async (id: number, isDone: boolean) => {
     try {
-      const result = await fetchChangeTaskStatus(id, isDone);
-      await getPageData();
+       await toggleTaskStatus({id, isDone});
     } catch (error) {
       throw error;
     }
   };
 
-  useEffect(() => {
-    getPageData();
-  }, [filterTask]);
-
   const handleChangeFilter = (filter: FilterValue) => {
     setFilerTask(filter);
   };
-
+  if (isLoading) return <div>Загрузка</div>
   return (
     <div className={style.todoList}>
       <div className={style.addInput}>
-        <AddTask onClick={(title: string) => addTask(title)} />
+        <AddTask onClick={(title: string) => addTask({title, isDone:false})} />
       </div>
       <TodoFilters
         countTasks={countTasks}
@@ -93,7 +56,7 @@ export const TodoListPage = () => {
       />
       <div>
         <ul className={style.itemsList}>
-          {todoList.map((task) => {
+          {todoList && todoList.data.map((task) => {
             return (
               <Task
                 key={task.id}
@@ -101,8 +64,7 @@ export const TodoListPage = () => {
                 title={task.title}
                 isDone={task.isDone}
                 created={task.created}
-                editTaskTitle={editTaskTitle}
-                removeTask={removeTask}
+                editTitleHeading={editTitleHeading}
                 changeTaskStatus={changeTaskStatus}
               />
             );

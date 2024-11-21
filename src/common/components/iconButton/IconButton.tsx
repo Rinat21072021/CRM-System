@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from 'react';
 import style from './Button.module.scss';
-import { VariantIconButton } from '../../type/type';
+
+export type VariantIconButton = 'save' | 'cancel' | 'edit' | 'remove';
 
 export type IconButtonType = {
   onClick: () => void;

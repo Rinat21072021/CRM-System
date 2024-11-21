@@ -1,45 +1,12 @@
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from 'react-router-dom';
-import ErrorPage from './pages/errorPage/ErrorPage';
-import { TodoListPage } from './features/todolist/Todolist';
-import { AuthPage } from './pages/AuthPage';
-import { CreateAccauntForm } from './features/auth/ui/createAccauntForm/CreateAccauntForm';
+import { RouterProvider } from 'react-router-dom';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
+import { router } from './common/router/router';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    errorElement: <Navigate to="404" />,
-    children: [
-      {
-        path: 'login',
-        element: <AuthPage />,
-      },
-      {
-        path: 'todolist',
-        element: <TodoListPage />,
-      },
-      {
-        path: 'create',
-        element: <CreateAccauntForm />,
-      },
-    ],
-  },
-  { path: '404', element: <ErrorPage /> },
-]);
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <Provider store={store}>
     <RouterProvider router={router} />
