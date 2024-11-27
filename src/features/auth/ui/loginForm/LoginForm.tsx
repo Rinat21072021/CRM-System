@@ -1,4 +1,4 @@
-import { Image, Button, Checkbox, Form, Flex, Typography, ConfigProvider, Input } from 'antd';
+import { Image, Button, Checkbox, Form, Flex, Typography, ConfigProvider, Input, message } from 'antd';
 import googleIcon from '../../../../assets/authImg/google.png';
 import logo from '../../../../assets/authImg/logo.png';
 import style from './LoginForm.module.scss';
@@ -12,12 +12,18 @@ export const LoginForm = () => {
   const [title, setTitle] = useState('');
   const [password, setPassword] = useState('');
   const [isAuth, setIsAuth] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values);
   };
-  
-  const [authenticates, {data, isSuccess}] = useLoginMutation();
+  const errorMessage = (text: string) => {
+    messageApi.open({
+      type: 'error',
+      content: text,
+    });
+  };
+  const [authenticates, {data, isSuccess, isError}] = useLoginMutation();
   const handleSubmitAuthorization = async() => {
     try {
       await authenticates({ login: title, password });
@@ -28,6 +34,7 @@ export const LoginForm = () => {
   };
 
   useEffect(() => {
+    
     if (isSuccess && data) {
       localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
       setIsAuth(true);

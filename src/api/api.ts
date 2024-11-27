@@ -1,20 +1,10 @@
 import axios from 'axios';
-import { FilterValue, MetaResponse, ResponseDataType, Todo, TodoInfo } from '../common/type/type';
-import { instance } from '../common/instance/instance';
-
+import {  MetaResponse, ResponseDataType, Todo, TodoInfo } from '../common/type/type';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { InvalidatedProjectKind } from 'typescript';
+import { baseApi } from '../common/baseApi/baseApi';
 
-export const todolistsApi = createApi({
-  reducerPath: 'todolistsApi',
-  tagTypes: ['Todolist'],
-  baseQuery: fetchBaseQuery({
-  baseUrl: 'https://easydev.club/api/v1/',
-    // prepareHeaders: headers => {
-    //   headers.set('API-KEY', `${process.env.REACT_APP_API_KEY}`)
-    //   headers.set('Authorization', `Bearer ${localStorage.getItem('sn-token')}`)
-    // },
-  }),
+
+export const todolistsApi = baseApi.injectEndpoints({
   endpoints: (build) => {
     return {
       getFilteredTasks: build.query<MetaResponse<Todo, TodoInfo>, any>({
