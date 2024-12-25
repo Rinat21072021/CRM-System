@@ -1,10 +1,14 @@
+import { Outlet } from 'react-router-dom';
 import './App.scss';
-import { Todolist } from './components/todolist/Todolist';
+import { TodoListPage } from './features/todolist/Todolist';
+
 
 function App() {
   return (
     <div className="App">
-      <Todolist />
+      {/* <AuthPage/> */}
+      <Outlet />
+      {/* <TodoListPage /> */}
     </div>
   );
 }
